@@ -12,6 +12,7 @@ from typing import (
     Iterator,
     List,
     MutableSequence,
+    Optional,
     Sequence,
     Tuple,
     TypeVar,
@@ -29,11 +30,18 @@ class StructList(MutableSequence[T]):
 
     def __init__(
             self,
+            fmt: str,
             stream: BinaryIO,
-            fmt: str
+            encode: Optional[Callable[..., T]] = None,
+            decode: Optional[Callable[[T], tuple]] = None
     ) -> None:
         super().__init__()
-        self._stream: StructStream[T] = StructStream(fmt, stream)
+        self._stream: StructStream[T] = StructStream(
+            fmt,
+            stream,
+            encode,
+            decode
+        )
 
     def _unpack_slice(self, index: slice) -> Tuple[int, int, int]:
         if index.step == 0:
