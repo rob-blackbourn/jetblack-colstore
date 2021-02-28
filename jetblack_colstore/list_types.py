@@ -29,3 +29,22 @@ class DatetimeList(StructList[datetime]):
             _encode_datetime,
             _decode_datetime
         )
+
+
+def _encode_string(*args: Any) -> str:
+    return args[0].rstrip(b'\0x').decode()
+
+
+def _decode_string(value: str) -> tuple:
+    return (value.encode(),)
+
+
+class StringList(StructList[str]):
+
+    def __init__(self, stream: BinaryIO, length: int) -> None:
+        super().__init__(
+            f"<{length}s",
+            stream,
+            _encode_string,
+            _decode_string
+        )
