@@ -54,9 +54,6 @@ class StructList(MutableSequence[T]):
         step = index.step or 1
         return start, stop, step
 
-    def __len__(self) -> int:
-        return self._stream.count()
-
     def _get_value(self, index: int) -> T:
         if index < 0:
             index += len(self)
@@ -67,15 +64,6 @@ class StructList(MutableSequence[T]):
     def _get_slice(self, index: slice) -> List[T]:
         start, stop, step = self._unpack_slice(index)
         return self._stream.read_many(start, stop, step)
-
-    def __getitem__(self, index: Union[int, slice]) -> Union[T, MutableSequence[T]]:
-        """Get a list item"""
-        if isinstance(index, int):
-            return self._get_value(index)
-        elif isinstance(index, slice):
-            return self._get_slice(index)
-        else:
-            raise ValueError('unhandled index type')
 
     def _del_value(self, index: int) -> None:
         if index >= len(self):
@@ -103,14 +91,6 @@ class StructList(MutableSequence[T]):
             for i in range(stop - 1, start - 1, step):
                 self._del_value(i)
 
-    def __delitem__(self, index: Union[int, slice]) -> None:
-        if isinstance(index, int):
-            self._del_value(index)
-        elif isinstance(index, slice):
-            self._del_slice(index)
-        else:
-            raise ValueError('unhandled index type')
-
     def _set_value(self, index: int, value: T) -> None:
         if index < 0:
             index += len(self)
@@ -126,6 +106,26 @@ class StructList(MutableSequence[T]):
             items = iter(values)
             for i in range(start, stop, step):
                 self._set_value(i, next(items))
+
+    def __len__(self) -> int:
+        return self._stream.count()
+
+    def __getitem__(self, index: Union[int, slice]) -> Union[T, MutableSequence[T]]:
+        """Get a list item"""
+        if isinstance(index, int):
+            return self._get_value(index)
+        elif isinstance(index, slice):
+            return self._get_slice(index)
+        else:
+            raise ValueError('unhandled index type')
+
+    def __delitem__(self, index: Union[int, slice]) -> None:
+        if isinstance(index, int):
+            self._del_value(index)
+        elif isinstance(index, slice):
+            self._del_slice(index)
+        else:
+            raise ValueError('unhandled index type')
 
     def __setitem__(self, index: Union[int, slice], value: Union[T, List[T]]) -> None:
         if isinstance(index, int):
@@ -157,8 +157,11 @@ class StructList(MutableSequence[T]):
     def append(self, value: T) -> None:
         self._stream.write(len(self), value)
 
-    def add(self, value: T) -> None:
-        bisect.insort(self, value)
+    def add(self, value: T) -> Tuple[int, int]:
+        left = bisect.bisect_left(self, value)
+        right = bisect.bisect_right(self, value, left)
+        self.insert(right, value)
+        return left, right
 
     def encode(self, *args: Any) -> T:
         return args[0]

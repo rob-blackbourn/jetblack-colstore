@@ -7,7 +7,7 @@ from jetblack_colstore.struct_list import StructList
 
 def test_add() -> None:
     """Tests for add"""
-    int_list: StructList[int] = StructList(io.BytesIO(bytearray()), "<i")
+    int_list: StructList[int] = StructList("<i", io.BytesIO(bytearray()))
     int_list.add(5)
     int_list.add(2)
     int_list.add(7)
@@ -16,7 +16,7 @@ def test_add() -> None:
 
 
 def test_insert_smoke_test() -> None:
-    int_list: StructList[int] = StructList(io.BytesIO(bytearray()), "<i")
+    int_list: StructList[int] = StructList("<i", io.BytesIO(bytearray()))
     int_list.insert(0, 5)
     assert int_list == [5]
     int_list.insert(0, 2)
@@ -29,7 +29,7 @@ def test_insert_smoke_test() -> None:
 
 def test_insert_at_end() -> None:
     """Tests for insert"""
-    int_list: StructList[int] = StructList(io.BytesIO(bytearray()), "<i")
+    int_list: StructList[int] = StructList("<i", io.BytesIO(bytearray()))
     int_list.append(1)
     int_list.insert(len(int_list), 2)
     assert int_list == [1, 2], 'insert at len(list) should append'
@@ -39,7 +39,7 @@ def test_insert_at_end() -> None:
 
 def test_len():
     """Tests for len(list)"""
-    int_list: StructList[int] = StructList(io.BytesIO(bytearray()), "<i")
+    int_list: StructList[int] = StructList("<i", io.BytesIO(bytearray()))
     assert len(int_list) == 0, 'len should be 0 for empty list'
     int_list.append(1)
     assert len(int_list) == 1, 'len should be 1 after adding a single item'
@@ -61,7 +61,7 @@ def test_len():
 
 def test_iadd():
     """Test for +="""
-    int_list: StructList[int] = StructList(io.BytesIO(bytearray()), "<i")
+    int_list: StructList[int] = StructList("<i", io.BytesIO(bytearray()))
     int_list += [0, 1, 2]
     assert int_list == [0, 1, 2], '+= should work on empty list'
     int_list += [3, 4, 5]
@@ -70,7 +70,7 @@ def test_iadd():
 
 def test_append():
     """Test for append"""
-    int_list: StructList[int] = StructList(io.BytesIO(bytearray()), "<i")
+    int_list: StructList[int] = StructList("<i", io.BytesIO(bytearray()))
     int_list.append(1)
     assert int_list == [1], 'should append to empty list'
     int_list.append(2)
@@ -79,7 +79,7 @@ def test_append():
 
 def test_get():
     """Test for get"""
-    int_list: StructList[int] = StructList(io.BytesIO(bytearray()), "<i")
+    int_list: StructList[int] = StructList("<i", io.BytesIO(bytearray()))
     int_list += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     assert int_list[0] == 0, 'should index start of list'
     assert int_list[1] == 1, 'should index forward'
@@ -104,7 +104,7 @@ def test_get():
 
 def test_set():
     """Tests for set"""
-    int_list: StructList[int] = StructList(io.BytesIO(bytearray()), "<i")
+    int_list: StructList[int] = StructList("<i", io.BytesIO(bytearray()))
     try:
         int_list[0] = 0
         assert False, 'should raise out of range'
@@ -122,7 +122,7 @@ def test_set():
 
 def test_del():
     """Tests for delete"""
-    int_list: StructList[int] = StructList(io.BytesIO(bytearray()), "<i")
+    int_list: StructList[int] = StructList("<i", io.BytesIO(bytearray()))
     int_list += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     del int_list[0]
     assert int_list == [1, 2, 3, 4, 5, 6, 7, 8, 9], 'should delete first'
