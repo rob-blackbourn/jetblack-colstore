@@ -12,39 +12,37 @@ class IntList(StructList[int]):
         super().__init__("<i", stream)
 
 
-def _encode_datetime(*args: Any) -> datetime:
-    return datetime.fromtimestamp(args[0] / 1000000)
-
-
-def _decode_datetime(value: datetime) -> tuple:
-    return (int(value.timestamp() * 1000000),)
-
-
 class DatetimeList(StructList[datetime]):
 
     def __init__(self, stream: BinaryIO) -> None:
         super().__init__(
             "<q",
-            stream,
-            _encode_datetime,
-            _decode_datetime
+            stream
         )
 
+    def encode(self, *args: Any) -> datetime:
+        return datetime.fromtimestamp(args[0] / 1000000)
 
-def _encode_string(*args: Any) -> str:
-    return args[0].rstrip(b'\0x').decode()
-
-
-def _decode_string(value: str) -> tuple:
-    return (value.encode(),)
+    def decode(self, value: datetime) -> tuple:
+        return (int(value.timestamp() * 1000000),)
 
 
 class StringList(StructList[str]):
 
-    def __init__(self, stream: BinaryIO, length: int) -> None:
+    def __init__(
+            self,
+            stream: BinaryIO,
+            length: int,
+            encoding: str = "utf-8"
+    ) -> None:
         super().__init__(
             f"<{length}s",
-            stream,
-            _encode_string,
-            _decode_string
+            stream
         )
+        self.encoding = encoding
+
+    def encode(self, *args: Any) -> str:
+        return args[0].rstrip(b'\0x').decode(self.encoding)
+
+    def decode(self, value: str) -> tuple:
+        return (value.encode(self.encoding),)

@@ -31,16 +31,14 @@ class StructList(MutableSequence[T]):
     def __init__(
             self,
             fmt: str,
-            stream: BinaryIO,
-            encode: Optional[Callable[..., T]] = None,
-            decode: Optional[Callable[[T], tuple]] = None
+            stream: BinaryIO
     ) -> None:
         super().__init__()
         self._stream: StructStream[T] = StructStream(
             fmt,
             stream,
-            encode,
-            decode
+            self.encode,
+            self.decode
         )
 
     def _unpack_slice(self, index: slice) -> Tuple[int, int, int]:
@@ -161,6 +159,12 @@ class StructList(MutableSequence[T]):
 
     def add(self, value: T) -> None:
         bisect.insort(self, value)
+
+    def encode(self, *args: Any) -> T:
+        return args[0]
+
+    def decode(self, value: T) -> tuple:
+        return (value,)
 
     def __iter__(self) -> Iterator[T]:
         def _iter():
