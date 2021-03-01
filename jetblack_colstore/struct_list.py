@@ -157,9 +157,10 @@ class StructList(MutableSequence[T]):
     def append(self, value: T) -> None:
         self._stream.write(len(self), value)
 
-    def add(self, value: T) -> Tuple[int, int]:
-        left = bisect.bisect_left(self, value)
-        right = bisect.bisect_right(self, value, left)
+    def add(self, value: T, lo: int = 0, hi: Optional[int] = None) -> Tuple[int, int]:
+        hi = hi or len(self)
+        left = bisect.bisect_left(self, value, lo, hi)
+        right = bisect.bisect_right(self, value, left, hi)
         self.insert(right, value)
         return left, right
 
