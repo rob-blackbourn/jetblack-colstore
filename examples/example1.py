@@ -48,7 +48,7 @@ def main():
     ]
 
     copy_of_rows = copy(rows)
-    rand = Random(0)
+    rand = Random(3)
     while copy_of_rows:
         index = rand.randrange(len(copy_of_rows))
         row = copy_of_rows.pop(index)
