@@ -40,3 +40,6 @@ class ColumnStore:
             struct_list[index]
             for struct_list in self.struct_lists
         )
+
+    def __len__(self) -> int:
+        return len(self.struct_lists[0])

@@ -163,8 +163,8 @@ class StructList(MutableSequence[T]):
             lo: Optional[int] = None,
             hi: Optional[int] = None
     ) -> Tuple[int, int]:
-        lo = lo or 0
-        hi = hi or len(self)
+        lo = 0 if lo is None else lo
+        hi = len(self) if hi is None else hi
         left = bisect.bisect_left(self, value, lo, hi)
         right = bisect.bisect_right(self, value, left, hi)
         self.insert(right, value)
