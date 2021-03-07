@@ -176,6 +176,9 @@ class StructList(MutableSequence[T]):
     def decode(self, value: T) -> tuple:
         return (value,)
 
+    def close(self) -> None:
+        self._stream.close()
+
     def __iter__(self) -> Iterator[T]:
         def _iter():
             index = 0

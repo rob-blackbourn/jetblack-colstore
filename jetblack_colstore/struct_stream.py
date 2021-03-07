@@ -86,3 +86,6 @@ class StructStream(Generic[T]):
 
     def truncate(self, count: int) -> None:
         self.stream.truncate(self.size * count)
+
+    def close(self) -> None:
+        self.stream.close()

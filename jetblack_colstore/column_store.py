@@ -35,6 +35,10 @@ class ColumnStore:
         for struct_list, value in zip(self.struct_lists, values):
             lo, hi = struct_list.add(value, lo, hi)
 
+    def close(self) -> None:
+        for struct_list in self.struct_lists:
+            struct_list.close()
+
     def __getitem__(self, index: Union[int, slice]) -> Union[tuple, List[tuple]]:
         values = tuple(
             struct_list[index]

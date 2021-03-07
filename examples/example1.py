@@ -46,21 +46,11 @@ def main():
         (3, 3, 2),
         (3, 3, 3),
     ]
-
-    copy_of_rows = copy(rows)
-    rand = Random(3)
-    while copy_of_rows:
-        index = rand.randrange(len(copy_of_rows))
-        row = copy_of_rows.pop(index)
-        print('adding', row)
+    for row in rows:
         store.add(*row)
-        for i in range(len(store)):
-            print(store[i])
-        print()
 
-    for index, row in enumerate(rows):
-        if store[index] != row:
-            print(store[index], row)
+    values = store[:4]
+    print(values)
 
 
 if __name__ == '__main__':
