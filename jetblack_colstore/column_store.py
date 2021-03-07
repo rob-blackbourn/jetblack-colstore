@@ -1,6 +1,6 @@
 """A column store"""
 
-from typing import List, Union
+from typing import List, Sequence, Union
 
 from .struct_list import StructList
 
@@ -41,6 +41,18 @@ class ColumnStore:
             for struct_list in self.struct_lists
         )
         return list(zip(*values)) if isinstance(index, slice) else values
+
+    def __setitem__(
+            self,
+            index: Union[int, slice],
+            values: Union[tuple, Sequence[tuple]]
+    ) -> None:
+        if isinstance(index, int):
+            for struct_list, value in zip(self.struct_lists, values):
+                struct_list[index] = value
+        elif isinstance(index, slice):
+            for i, struct_list in enumerate(self.struct_lists):
+                struct_list[index] = [value[i] for value in values]
 
     def __len__(self) -> int:
         return len(self.struct_lists[0])

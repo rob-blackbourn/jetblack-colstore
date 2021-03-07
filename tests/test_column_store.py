@@ -90,3 +90,27 @@ def test_add_nested_sort():
             if store[index] != row:
                 print(store[index], row)
             assert store[index] == row
+
+
+def test_set():
+    store = ColumnStore(
+        [
+            IntList(io.BytesIO()),
+            IntList(io.BytesIO()),
+            IntList(io.BytesIO()),
+        ]
+    )
+
+    store.append(1, 10, 100)
+    store.append(2, 20, 200)
+    store.append(3, 30, 300)
+
+    store[0] = (4, 40, 400)
+    store[1:] = [
+        (5, 50, 500),
+        (6, 60, 600)
+    ]
+
+    assert store[0] == (4, 40, 400)
+    assert store[1] == (5, 50, 500)
+    assert store[2] == (6, 60, 600)
