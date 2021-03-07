@@ -36,10 +36,11 @@ class ColumnStore:
             lo, hi = struct_list.add(value, lo, hi)
 
     def __getitem__(self, index: Union[int, slice]) -> Union[tuple, List[tuple]]:
-        return tuple(
+        values = tuple(
             struct_list[index]
             for struct_list in self.struct_lists
         )
+        return list(zip(*values)) if isinstance(index, slice) else values
 
     def __len__(self) -> int:
         return len(self.struct_lists[0])
