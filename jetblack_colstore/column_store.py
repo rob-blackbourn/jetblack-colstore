@@ -54,5 +54,9 @@ class ColumnStore:
             for i, struct_list in enumerate(self.struct_lists):
                 struct_list[index] = [value[i] for value in values]
 
+    def __delitem__(self, index: Union[int, slice]) -> None:
+        for struct_list in self.struct_lists:
+            del struct_list[index]
+
     def __len__(self) -> int:
         return len(self.struct_lists[0])

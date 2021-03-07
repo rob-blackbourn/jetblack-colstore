@@ -114,3 +114,23 @@ def test_set():
     assert store[0] == (4, 40, 400)
     assert store[1] == (5, 50, 500)
     assert store[2] == (6, 60, 600)
+
+
+def test_delete():
+    store = ColumnStore(
+        [
+            IntList(io.BytesIO()),
+            IntList(io.BytesIO()),
+            IntList(io.BytesIO()),
+        ]
+    )
+
+    store.append(1, 10, 100)
+    store.append(2, 20, 200)
+    store.append(3, 30, 300)
+
+    del store[0]
+    assert len(store) == 2
+
+    del store[:]
+    assert len(store) == 0
