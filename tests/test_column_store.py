@@ -10,11 +10,9 @@ from jetblack_colstore.list_types import IntList
 
 def test_append():
     store = ColumnStore(
-        [
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-        ]
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
     )
 
     store.append(1, 10, 100)
@@ -28,11 +26,9 @@ def test_append():
 
 def test_insert():
     store = ColumnStore(
-        [
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-        ]
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
     )
 
     store.insert(0, 3, 30, 300)
@@ -46,11 +42,9 @@ def test_insert():
 
 def test_add():
     store = ColumnStore(
-        [
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-        ]
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
     )
 
     store.add(3, 30, 300)
@@ -74,11 +68,9 @@ def test_add_nested_sort():
     for seed in range(100):
         random = Random(seed)
         store = ColumnStore(
-            [
-                IntList(io.BytesIO()),
-                IntList(io.BytesIO()),
-                IntList(io.BytesIO()),
-            ]
+            IntList(io.BytesIO()),
+            IntList(io.BytesIO()),
+            IntList(io.BytesIO()),
         )
 
         candidate_rows = copy(rows)
@@ -94,11 +86,9 @@ def test_add_nested_sort():
 
 def test_set():
     store = ColumnStore(
-        [
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-        ]
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
     )
 
     store.append(1, 10, 100)
@@ -118,11 +108,9 @@ def test_set():
 
 def test_delete():
     store = ColumnStore(
-        [
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-        ]
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
     )
 
     store.append(1, 10, 100)

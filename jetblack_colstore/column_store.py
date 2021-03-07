@@ -9,7 +9,7 @@ class ColumnStore:
 
     def __init__(
         self,
-        struct_lists: List[StructList]
+        *struct_lists: StructList
     ) -> None:
         self.struct_lists = struct_lists
 

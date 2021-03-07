@@ -10,11 +10,9 @@ from jetblack_colstore.list_types import IntList
 
 def main():
     store = ColumnStore(
-        [
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-            IntList(io.BytesIO()),
-        ]
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
+        IntList(io.BytesIO()),
     )
 
     rows = [
